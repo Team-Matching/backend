@@ -1,7 +1,7 @@
 package com.cbnu.teammatching.member.domain;
 
 import com.cbnu.teammatching.application.domain.Application;
-import com.cbnu.teammatching.member.dto.MemberRegistrationDto;
+import com.cbnu.teammatching.member.dto.MemberSignUpRequest;
 import com.cbnu.teammatching.message.domain.Message;
 import com.cbnu.teammatching.post.domain.Post;
 import jakarta.persistence.*;
@@ -20,7 +20,11 @@ public class Member {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String username;
+
+    @NotNull
+    private String name;
 
     @NotNull
     private String password;
@@ -29,12 +33,14 @@ public class Member {
     private String nickname;
 
     @NotNull
+    @Column(unique = true)
     private String email;
 
     @NotNull
     private LocalDateTime birthdate;
 
     @NotNull
+    @Column(unique = true)
     private String phoneNumber;
 
     @OneToMany(mappedBy = "member")
@@ -67,15 +73,18 @@ public class Member {
     protected Member() {
     }
 
-    public static Member createMember(MemberRegistrationDto registrationDto) {
+    public static Member createMember(MemberSignUpRequest registrationDto) {
         Member member = new Member();
         member.username = registrationDto.getUsername();
         member.password = registrationDto.getPassword();
         member.nickname = registrationDto.getNickname();
+        member.name = registrationDto.getName();
         member.email = registrationDto.getEmail();
         member.birthdate = registrationDto.getBirthdate();
         member.phoneNumber = registrationDto.getPhoneNumber();
         return member;
     }
+
+
 
 }
