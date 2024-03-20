@@ -1,13 +1,12 @@
 package com.cbnu.teammatching.member.controller;
 
-import com.cbnu.teammatching.member.dto.MemberRegistrationDto;
+import com.cbnu.teammatching.member.dto.MemberSignUpRequest;
+import com.cbnu.teammatching.member.dto.MemberSignUpResponse;
 import com.cbnu.teammatching.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Long> registerMember(@RequestBody MemberRegistrationDto memberDto) {
-        return ResponseEntity.ok(memberService.register(memberDto));
+    public ResponseEntity<MemberSignUpResponse> signUp(@RequestBody MemberSignUpRequest memberDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.signUp(memberDto));
     }
 }
