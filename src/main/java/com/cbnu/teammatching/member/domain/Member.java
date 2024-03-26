@@ -6,14 +6,17 @@ import com.cbnu.teammatching.message.domain.Message;
 import com.cbnu.teammatching.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -37,7 +40,7 @@ public class Member {
     private String email;
 
     @NotNull
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @NotNull
     @Column(unique = true)
@@ -70,9 +73,6 @@ public class Member {
     @OneToMany(mappedBy = "applicant")
     private List<Application> applications = new ArrayList<>();
 
-    protected Member() {
-    }
-
     public static Member createMember(MemberSignUpRequest registrationDto) {
         Member member = new Member();
         member.username = registrationDto.getUsername();
@@ -84,7 +84,5 @@ public class Member {
         member.phoneNumber = registrationDto.getPhoneNumber();
         return member;
     }
-
-
 
 }
