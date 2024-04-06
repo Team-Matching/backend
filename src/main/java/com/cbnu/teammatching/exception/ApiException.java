@@ -1,4 +1,4 @@
-package com.cbnu.teammatching.common.exception;
+package com.cbnu.teammatching.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

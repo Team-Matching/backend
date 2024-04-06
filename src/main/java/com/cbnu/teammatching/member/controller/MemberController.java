@@ -1,7 +1,6 @@
 package com.cbnu.teammatching.member.controller;
 
 import com.cbnu.teammatching.common.response.ApiResponse;
-import com.cbnu.teammatching.common.response.ApiSuccessStatus;
 import com.cbnu.teammatching.member.dto.MemberSignUpRequest;
 import com.cbnu.teammatching.member.dto.MemberSignUpResponse;
 import com.cbnu.teammatching.member.service.MemberService;

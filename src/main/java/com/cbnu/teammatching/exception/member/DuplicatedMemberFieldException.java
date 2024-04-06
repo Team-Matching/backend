@@ -1,7 +1,7 @@
-package com.cbnu.teammatching.common.exception.member;
+package com.cbnu.teammatching.exception.member;
 
 import com.cbnu.teammatching.common.response.ApiErrorStatus;
-import com.cbnu.teammatching.common.exception.ApiException;
+import com.cbnu.teammatching.exception.ApiException;
 import org.springframework.http.HttpStatus;
 
 public class DuplicatedMemberFieldException extends ApiException {

@@ -1,6 +1,6 @@
 package com.cbnu.teammatching.member.service;
 
-import com.cbnu.teammatching.common.exception.member.DuplicatedMemberFieldException;
+import com.cbnu.teammatching.exception.member.DuplicatedMemberFieldException;
 import com.cbnu.teammatching.member.domain.Member;
 import com.cbnu.teammatching.member.dto.MemberSignUpRequest;
 import com.cbnu.teammatching.member.dto.MemberSignUpResponse;
@@ -31,5 +31,4 @@ public class MemberService {
         memberRepository.save(member);
         return MemberSignUpResponse.of(member);
     }
-
 }

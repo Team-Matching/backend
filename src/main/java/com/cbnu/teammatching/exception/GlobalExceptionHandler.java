@@ -1,4 +1,4 @@
-package com.cbnu.teammatching.common.exception;
+package com.cbnu.teammatching.exception;
 
 import com.cbnu.teammatching.common.response.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
