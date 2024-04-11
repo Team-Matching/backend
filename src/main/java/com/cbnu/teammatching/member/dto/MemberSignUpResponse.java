@@ -3,9 +3,8 @@ package com.cbnu.teammatching.member.dto;
 import com.cbnu.teammatching.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 public class MemberSignUpResponse {
     private Long id;
