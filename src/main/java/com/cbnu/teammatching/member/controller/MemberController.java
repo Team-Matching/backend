@@ -8,6 +8,7 @@ import com.cbnu.teammatching.member.dto.MemberSignUpResponse;
 import com.cbnu.teammatching.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,14 @@ public class MemberController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<ApiResponse<MemberSignInResponse>> signIn(@Validated @RequestBody MemberSignInRequest signInRequest) {
-        return ApiResponse.success(SIGNIN_SUCCESS, memberService.signIn(signInRequest));
+    public ResponseEntity<ApiResponse<String>> signIn(@Validated @RequestBody MemberSignInRequest signInRequest) {
+        MemberSignInResponse member = memberService.signIn(signInRequest);
+        return ApiResponse.success(SIGNIN_SUCCESS, member.getEmail(), member.getToken());
+    }
+
+    @PostMapping("/ex")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> ex() {
+        return ResponseEntity.ok().body("인증 성공");
     }
 }

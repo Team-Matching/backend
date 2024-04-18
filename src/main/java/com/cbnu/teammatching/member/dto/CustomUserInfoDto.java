@@ -1,16 +1,18 @@
 package com.cbnu.teammatching.member.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberSignInRequest {
+public class CustomUserInfoDto {
+    private Long id;
 
-    @NotBlank
     private String email;
 
-    @NotBlank
+    private String name;
+
     private String password;
+
+    private RoleType role;
 }

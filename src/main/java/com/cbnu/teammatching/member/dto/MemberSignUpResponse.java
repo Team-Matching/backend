@@ -8,12 +8,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberSignUpResponse {
     private Long id;
-    private String username;
+    private String email;
     private String name;
     private String nickname;
 
     public static MemberSignUpResponse of(Member member) {
-        return new MemberSignUpResponse(member.getId(), member.getUsername(), member.getName(),member.getNickname());
+        return new MemberSignUpResponse(member.getId(), member.getEmail(), member.getName(),member.getNickname());
     }
 }
 

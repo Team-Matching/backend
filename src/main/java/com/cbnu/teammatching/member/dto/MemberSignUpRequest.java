@@ -12,9 +12,6 @@ import java.time.LocalDate;
 @Getter
 public class MemberSignUpRequest {
 
-    @NotBlank
-    private String username;
-
     @Pattern(regexp = "^[a-zA-Z0-9가-힣]+$", message = "이름은 숫자, 한글, 영어만 가능합니다.")
     @NotBlank
     private String name;

@@ -7,9 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MemberSignInResponse {
-    private String username;
 
-    public static MemberSignInResponse of(Member member) {
-        return new MemberSignInResponse(member.getUsername());
-    }
+    private String email;
+
+    private String token;
 }
