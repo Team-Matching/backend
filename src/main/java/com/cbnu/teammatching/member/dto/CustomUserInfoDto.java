@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.member.dto;
 
+import com.cbnu.teammatching.member.domain.RoleType;
 import lombok.*;
 
 @Data
