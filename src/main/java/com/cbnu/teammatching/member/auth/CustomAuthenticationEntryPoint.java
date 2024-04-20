@@ -25,21 +25,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         this.resolver = resolver;
         this.objectMapper = objectMapper;
     }
-//
-//    @Override
-//    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-//        log.info("{} 처리",authException.getMessage());
-//        resolver.resolveException(request, response, null, authException);
-//    }
 
-//    @Override
-//    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-//        try {
-//            throw authException;
-//        } catch (AuthenticationException e) {
-//            resolver.resolveException(request, response, null, e);
-//        }
-//    }
     private final ObjectMapper objectMapper;
 
     @Override
