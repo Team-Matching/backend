@@ -29,4 +29,5 @@ public class MemberProfileController {
         CareerDto careerResponse = profileService.saveCareer(token, careerDto);
         return ApiResponse.success(PROFILE_CAREER_SAVE, careerResponse);
     }
+
 }

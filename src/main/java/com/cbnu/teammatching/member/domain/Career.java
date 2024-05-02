@@ -38,4 +38,12 @@ public class Career {
         member.getCareers().add(career);
         return career;
     }
+
+    public void updateCareer(CareerDto update) {
+        this.company = update.getCompany();
+        this.role = update.getRole();
+        this.startDate = update.getStartDate();
+        this.endDate = update.getEndDate();
+        this.description = update.getDescription();
+    }
 }

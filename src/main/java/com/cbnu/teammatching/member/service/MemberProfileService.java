@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,7 @@ public class MemberProfileService {
         List<Career> careers = careerRepository.findAllByMember(member);
         return careers.stream()
                 .map(career -> new CareerDto(
+                        career.getId(),
                         career.getCompany(),
                         career.getRole(),
                         career.getStartDate(),
@@ -38,11 +40,18 @@ public class MemberProfileService {
                         career.getDescription()
                 )).collect(Collectors.toList());
     }
+
     public CareerDto saveCareer(String token, CareerDto careerDto) {
         Long memberId = jwtUtil.getMemberId(token);
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        Career newCareer = Career.createCareer(member, careerDto);
-        careerRepository.save(newCareer);
-        return CareerDto.of(newCareer);
+        if (careerDto.getCareerId() == null) {
+            Career newCareer = Career.createCareer(member, careerDto);
+            careerRepository.save(newCareer);
+            return CareerDto.of(newCareer);
+        } else {
+            Career career = member.getCareers().stream().filter(i -> Objects.equals(i.getId(), careerDto.getCareerId())).findFirst().orElseThrow(MemberNotFoundException::new);
+            career.updateCareer(careerDto);
+            return careerDto;
+        }
     }
 }
