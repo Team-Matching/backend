@@ -38,7 +38,7 @@ public class MemberService {
     public MemberSignInResponse signIn(MemberSignInRequest signInRequest) {
         Member member = memberRepository.findByEmail(signInRequest.getEmail()).orElseThrow(InvalidEmailOrPasswordException::new);
 
-        if (!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())){
+        if (!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
             throw new InvalidEmailOrPasswordException();
         }
 
@@ -46,6 +46,5 @@ public class MemberService {
 
         String accessToken = jwtUtil.createAccessToken(info);
         return new MemberSignInResponse(member.getEmail(), accessToken);
-
     }
 }

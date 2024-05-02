@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter { // OncePerRequestFilte
             String token = authorizationHeader.substring(7);
             //JWT 유효성 검증
             if (jwtUtil.validateToken(token)) {
-                Long userId = jwtUtil.getUserId(token);
+                Long userId = jwtUtil.getMemberId(token);
 
                 //유저와 토큰 일치 시 userDetails 생성
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(userId.toString());

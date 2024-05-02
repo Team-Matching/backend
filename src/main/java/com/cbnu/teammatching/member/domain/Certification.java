@@ -2,6 +2,7 @@ package com.cbnu.teammatching.member.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,5 +19,5 @@ public class Certification {
     private String certificationName;
     private String issuer;
 
-    private LocalDateTime dateObtained;
+    private LocalDate dateObtained;
 }

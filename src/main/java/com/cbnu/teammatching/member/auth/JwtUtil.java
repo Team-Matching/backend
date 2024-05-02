@@ -1,8 +1,6 @@
 package com.cbnu.teammatching.member.auth;
 
 import com.cbnu.teammatching.member.dto.CustomUserInfoDto;
-import com.cbnu.teammatching.member.dto.MemberSignInRequest;
-import com.cbnu.teammatching.member.dto.MemberSignInResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -70,7 +68,7 @@ public class JwtUtil {
      * @param token
      * @return User ID
      */
-    public Long getUserId(String token) {
+    public Long getMemberId(String token) {
         return parseClaims(token).get("memberId", Long.class);
     }
 
