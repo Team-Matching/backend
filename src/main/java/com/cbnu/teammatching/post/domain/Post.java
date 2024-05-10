@@ -19,7 +19,7 @@ public class Post {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorId")
+    @JoinColumn(name = "author_id")
     private Member member;
 
     private LocalDateTime creationDate;
@@ -27,7 +27,7 @@ public class Post {
     private int teamMemberCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     private String content;

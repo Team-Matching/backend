@@ -29,7 +29,7 @@ public class MemberProfileService {
     public List<CareerDto> getCareer(String token) {
         Long memberId = jwtUtil.getMemberId(token);
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        List<Career> careers = careerRepository.findAllByMember(member);
+        List<Career> careers = member.getCareers();
         return careers.stream()
                 .map(career -> new CareerDto(
                         career.getId(),

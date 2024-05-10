@@ -27,14 +27,9 @@ public class MemberController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<ApiResponse<String>> signIn(@Validated @RequestBody MemberSignInRequest signInRequest) {
+    public ResponseEntity<ApiResponse<MemberSignInResponse>> signIn(@Validated @RequestBody MemberSignInRequest signInRequest) {
         MemberSignInResponse member = memberService.signIn(signInRequest);
-        return ApiResponse.success(SIGNIN_SUCCESS, member.getEmail(), member.getToken());
+        return ApiResponse.success(SIGNIN_SUCCESS, member);
     }
 
-    @PostMapping("/ex")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> ex() {
-        return ResponseEntity.ok().body("인증 성공");
-    }
 }
