@@ -1,10 +1,13 @@
 package com.cbnu.teammatching.member.domain;
 
+import com.cbnu.teammatching.member.dto.CareerDto;
 import jakarta.persistence.*;
+import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
+@Getter
 public class Career {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +21,21 @@ public class Career {
     private String company;
     private String role;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private String description;
+
+    public static Career createCareer(Member member, CareerDto request) {
+        Career career = new Career();
+        career.member = member;
+        career.company = request.getCompany();
+        career.role = request.getRole();
+        career.startDate = request.getStartDate();
+        career.endDate = request.getEndDate();
+        career.description = request.getDescription();
+        member.getCareers().add(career);
+        return career;
+    }
 }

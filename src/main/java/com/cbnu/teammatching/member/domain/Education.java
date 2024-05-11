@@ -1,6 +1,8 @@
 package com.cbnu.teammatching.member.domain;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,7 +20,7 @@ public class Education {
     private String degree;
     private String major;
 
-    private LocalDateTime startYear;
+    private LocalDate startYear;
 
-    private LocalDateTime endYear;
+    private LocalDate endYear;
 }
