@@ -1,8 +1,10 @@
 package com.cbnu.teammatching.member.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
