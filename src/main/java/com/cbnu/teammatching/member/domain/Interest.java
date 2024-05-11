@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.member.domain;
 
+import com.cbnu.teammatching.member.dto.InterestRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -16,4 +17,12 @@ public class Interest {
     private Member member;
 
     private String interest;
+
+    public static Interest createInterest(Member member, InterestRequest.InterestDto interestDto) {
+        Interest interest = new Interest();
+        interest.member = member;
+        interest.interest = interestDto.getInterest();
+        member.getInterests().add(interest);
+        return interest;
+    }
 }

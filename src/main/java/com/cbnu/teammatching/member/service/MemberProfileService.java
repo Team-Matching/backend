@@ -2,17 +2,9 @@ package com.cbnu.teammatching.member.service;
 
 import com.cbnu.teammatching.exception.member.MemberNotFoundException;
 import com.cbnu.teammatching.member.auth.JwtUtil;
-import com.cbnu.teammatching.member.domain.Career;
-import com.cbnu.teammatching.member.domain.Certification;
-import com.cbnu.teammatching.member.domain.Education;
-import com.cbnu.teammatching.member.domain.Member;
-import com.cbnu.teammatching.member.dto.CareerDto;
-import com.cbnu.teammatching.member.dto.CertificationDto;
-import com.cbnu.teammatching.member.dto.EducationDto;
-import com.cbnu.teammatching.member.repository.CareerRepository;
-import com.cbnu.teammatching.member.repository.CertificationRepository;
-import com.cbnu.teammatching.member.repository.EducationRepository;
-import com.cbnu.teammatching.member.repository.MemberRepository;
+import com.cbnu.teammatching.member.domain.*;
+import com.cbnu.teammatching.member.dto.*;
+import com.cbnu.teammatching.member.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,6 +25,8 @@ public class MemberProfileService {
     private final CareerRepository careerRepository;
     private final CertificationRepository certificationRepository;
     private final EducationRepository educationRepository;
+    private final SkillRepository skillRepository;
+    private final InterestRepository interestRepository;
 
     public List<CareerDto> getCareer(String token) {
         Member member = getMember(token);
@@ -94,8 +88,42 @@ public class MemberProfileService {
         }
     }
 
+    public List<SkillRequest.SkillDto> getSkill(String token) {
+        Member member = getMember(token);
+        List<Skill> skills = member.getSkills();
+        return skills.stream()
+                .map(SkillRequest::of).collect(Collectors.toList());
+    }
+
+    public List<SkillRequest.SkillDto> saveSkills(String token, List<SkillRequest.SkillDto> skills) {
+        Member member = getMember(token);
+        for (SkillRequest.SkillDto skillDto : skills) {
+            Skill skill = Skill.createSkill(member, skillDto);
+            skillRepository.save(skill);
+        }
+        return skills;
+    }
+
+    public List<InterestRequest.InterestDto> getInterest(String token) {
+        Member member = getMember(token);
+        List<Interest> interests = member.getInterests();
+        return interests.stream()
+                .map(InterestRequest::of).collect(Collectors.toList());
+    }
+
+    public List<InterestRequest.InterestDto> saveInterests(String token, List<InterestRequest.InterestDto> interestsDto) {
+        Member member = getMember(token);
+        for (InterestRequest.InterestDto interestDto : interestsDto) {
+            Interest interest = Interest.createInterest(member, interestDto);
+            interestRepository.save(interest);
+        }
+        return interestsDto;
+    }
+
     private Member getMember(String token) {
         Long memberId = jwtUtil.getMemberId(token);
         return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
     }
+
+
 }
