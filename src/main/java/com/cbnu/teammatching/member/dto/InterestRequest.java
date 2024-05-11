@@ -17,13 +17,11 @@ public class InterestRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class InterestDto {
-        private Long id;
         private String interest;
     }
 
     public static InterestDto of(Interest interest) {
         return new InterestDto(
-                interest.getId(),
                 interest.getInterest()
         );
     }

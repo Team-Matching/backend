@@ -16,6 +16,7 @@ public class Interest {
     @JoinColumn(name = "memberId")
     private Member member;
 
+    @Column(unique = true)
     private String interest;
 
     public static Interest createInterest(Member member, InterestRequest.InterestDto interestDto) {

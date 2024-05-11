@@ -16,6 +16,7 @@ public class Skill {
     @JoinColumn(name = "memberId")
     private Member member;
 
+    @Column(unique = true)
     private String skill;
 
     public static Skill createSkill(Member member, SkillRequest.SkillDto skillDto) {

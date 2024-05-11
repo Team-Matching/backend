@@ -4,6 +4,7 @@ import com.cbnu.teammatching.common.response.ApiErrorResponse;
 import com.cbnu.teammatching.common.response.ApiResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.security.SignatureException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
@@ -32,6 +35,12 @@ public class GlobalExceptionHandler {
             message = message.substring(0, message.length() - 2);
         }
         return ApiErrorResponse.fail("Validation", message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ApiErrorResponse> handleSQLException(SQLException e) {
+        log.error("SQL exception occurred: {}", e.getMessage(), e);
+        return ApiErrorResponse.fail("SQL", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(SignatureException.class)
