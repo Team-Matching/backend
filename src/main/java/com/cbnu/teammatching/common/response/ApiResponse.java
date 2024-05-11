@@ -19,13 +19,4 @@ public class ApiResponse<T> {
                         .build());
     }
 
-    public static <T> ResponseEntity<ApiResponse<T>> success(ApiSuccessStatus status, T data, String header) {
-        return ResponseEntity.status(status.getHttpStatus())
-                .header("Authorization", header)
-                .body(ApiResponse.<T>builder()
-                        .message(status.getMessage())
-                        .body(data)
-                        .build());
-    }
-
 }

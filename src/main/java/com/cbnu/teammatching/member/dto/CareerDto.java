@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CareerDto {
+    private Long careerId;
+
     private String company;
 
     private String role;
@@ -22,6 +24,6 @@ public class CareerDto {
     private String description;
 
     public static CareerDto of(Career career) {
-        return new CareerDto(career.getCompany(), career.getRole(), career.getStartDate(), career.getEndDate(), career.getDescription());
+        return new CareerDto(career.getId(), career.getCompany(), career.getRole(), career.getStartDate(), career.getEndDate(), career.getDescription());
     }
 }

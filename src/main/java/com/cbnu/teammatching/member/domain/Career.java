@@ -15,7 +15,7 @@ public class Career {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     private String company;
@@ -38,4 +38,13 @@ public class Career {
         member.getCareers().add(career);
         return career;
     }
+
+    public void updateCareer(CareerDto update) {
+        this.company = update.getCompany();
+        this.role = update.getRole();
+        this.startDate = update.getStartDate();
+        this.endDate = update.getEndDate();
+        this.description = update.getDescription();
+    }
+
 }

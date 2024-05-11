@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.member.auth;
 
+import com.cbnu.teammatching.exception.auth.TokenPrefixException;
 import com.cbnu.teammatching.member.dto.CustomUserInfoDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -18,6 +19,7 @@ public class JwtUtil {
 
     private final Key key;
     private final long accessTokenExpTime;
+    private static final String BEARER_PREFIX = "Bearer ";
 
     public JwtUtil(
             @Value("${jwt.secret}") String secretKey,
@@ -108,5 +110,17 @@ public class JwtUtil {
         }
     }
 
-
+    /**
+     * Extracts the JWT token from the Authorization header.
+     * @param authorizationHeader Authorization header value
+     * @return Extracted JWT token
+     * @throws IllegalArgumentException if the header does not start with Bearer prefix
+     */
+    public static String extractJwtToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
+            return authorizationHeader.substring(BEARER_PREFIX.length());
+        } else {
+            throw new TokenPrefixException();
+        }
+    }
 }
