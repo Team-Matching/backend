@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,8 @@ public class MemberProfileService {
     private final EducationRepository educationRepository;
     private final SkillRepository skillRepository;
     private final InterestRepository interestRepository;
+    private final MemberSkillRepository memberSkillRepository;
+    private final MemberInterestRepository memberInterestRepository;
 
     public List<CareerDto> getCareer(String token) {
         Member member = getMember(token);
@@ -90,34 +93,58 @@ public class MemberProfileService {
 
     public List<SkillRequest.SkillDto> getSkill(String token) {
         Member member = getMember(token);
-        List<Skill> skills = member.getSkills();
-        return skills.stream()
-                .map(SkillRequest::of).collect(Collectors.toList());
+        List<Skill> skills = memberSkillRepository.findSkillsByMemberId(member.getId());
+        return skills.stream().map(SkillRequest::of).collect(Collectors.toList());
     }
 
     public List<SkillRequest.SkillDto> saveSkills(String token, List<SkillRequest.SkillDto> skills) {
         Member member = getMember(token);
+
         for (SkillRequest.SkillDto skillDto : skills) {
-            Skill skill = Skill.createSkill(member, skillDto);
-            skillRepository.save(skill);
+            Optional<Skill> skill = skillRepository.findBySkill(skillDto.getSkill());
+
+            if (skill.isPresent()) {
+                Skill findSkill = skill.get();
+                if(!memberSkillRepository.existsByMemberIdAndSkillId(member.getId(), findSkill.getId())){
+                    MemberSkill memberSkill = MemberSkill.createMemberSkill(member);
+                    findSkill.addMemberSkill(memberSkill);
+                }
+            } else {
+                MemberSkill memberSkill = MemberSkill.createMemberSkill(member);
+                Skill newSkill = Skill.createSkill(skillDto,memberSkill);
+                skillRepository.save(newSkill);
+            }
         }
         return skills;
     }
 
     public List<InterestRequest.InterestDto> getInterest(String token) {
         Member member = getMember(token);
-        List<Interest> interests = member.getInterests();
+        List<Interest> interests = memberInterestRepository.findInterestsByMemberId(member.getId());
         return interests.stream()
-                .map(InterestRequest::of).collect(Collectors.toList());
+                .map(InterestRequest::of)
+                .collect(Collectors.toList());
     }
 
-    public List<InterestRequest.InterestDto> saveInterests(String token, List<InterestRequest.InterestDto> interestsDto) {
+    public List<InterestRequest.InterestDto> saveInterests(String token, List<InterestRequest.InterestDto> interests) {
         Member member = getMember(token);
-        for (InterestRequest.InterestDto interestDto : interestsDto) {
-            Interest interest = Interest.createInterest(member, interestDto);
-            interestRepository.save(interest);
+
+        for (InterestRequest.InterestDto interestDto : interests) {
+            Optional<Interest> interest = interestRepository.findByInterest(interestDto.getInterest());
+            if (interest.isPresent()) {
+                Interest findInterest = interest.get();
+                if (!memberInterestRepository.existsByMemberIdAndInterestId(member.getId(), findInterest.getId())) {
+                    MemberInterest memberInterest = MemberInterest.createMemberInterest(member);
+                    findInterest.addMemberInterest(memberInterest);
+                }
+
+            } else {
+                MemberInterest memberInterest = MemberInterest.createMemberInterest(member);
+                Interest newInterest = Interest.createInterest(interestDto, memberInterest);
+                interestRepository.save(newInterest);
+            }
         }
-        return interestsDto;
+        return interests;
     }
 
     private Member getMember(String token) {
