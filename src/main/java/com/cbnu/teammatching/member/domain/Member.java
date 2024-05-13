@@ -50,12 +50,6 @@ public class Member {
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Interest> interests = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Skill> skills = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
     private List<Career> careers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
