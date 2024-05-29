@@ -8,7 +8,6 @@ import com.cbnu.teammatching.member.dto.MemberSignUpResponse;
 import com.cbnu.teammatching.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +20,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/signUp")
+    @PostMapping("/sign-up")
     public ResponseEntity<ApiResponse<MemberSignUpResponse>> signUp(@Validated @RequestBody MemberSignUpRequest memberDto) {
         return ApiResponse.success(SIGNUP_SUCCESS,memberService.signUp(memberDto));
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<MemberSignInResponse>> signIn(@Validated @RequestBody MemberSignInRequest signInRequest) {
         MemberSignInResponse member = memberService.signIn(signInRequest);
         return ApiResponse.success(SIGNIN_SUCCESS, member);
