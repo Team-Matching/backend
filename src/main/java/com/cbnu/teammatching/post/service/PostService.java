@@ -14,6 +14,7 @@ import com.cbnu.teammatching.post.domain.Post;
 import com.cbnu.teammatching.post.dto.PostCreateRequest;
 import com.cbnu.teammatching.post.dto.PostCreateResponse;
 import com.cbnu.teammatching.post.dto.PostResponse;
+import com.cbnu.teammatching.post.dto.PostSummaryDto;
 import com.cbnu.teammatching.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -53,7 +54,6 @@ public class PostService {
             throw new PostDeletedException();
         }
 
-        //application에서 ApplicationStatus가 Accepted인 회원의 email만 가져와서 List에 저장
         List<String> teamMemberEmails = post.getApplications().stream()
                 .filter(application -> application.getStatus()
                         .equals(ApplicationStatus.Accepted))
@@ -63,4 +63,20 @@ public class PostService {
         return PostResponse.of(post, teamMemberEmails);
     }
 
+    public List<PostSummaryDto> getPosts() {
+        return postRepository.findAll().stream()
+                .filter(post -> !post.isDeleted())
+                .map(PostSummaryDto::of)
+                .toList();
+    }
+
+    public List<PostSummaryDto> getPostsByCategory(String categoryName) {
+        Category category = categoryRepository.findByName(categoryName)
+                .orElseThrow(CategoryNotFoundException::new);
+
+        return postRepository.findByCategory(category).stream()
+                .filter(post -> !post.isDeleted())
+                .map(PostSummaryDto::of)
+                .toList();
+    }
 }

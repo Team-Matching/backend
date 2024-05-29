@@ -1,11 +1,7 @@
 package com.cbnu.teammatching.post.dto;
 
-import com.cbnu.teammatching.application.domain.Application;
-import com.cbnu.teammatching.category.domain.Category;
-import com.cbnu.teammatching.member.domain.Member;
 import com.cbnu.teammatching.post.domain.Post;
 import com.cbnu.teammatching.post.domain.PostStatus;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -30,7 +26,7 @@ public class PostResponse {
 
     private String category;
 
-    private String content;
+    private String detail;
 
     private PostStatus status;
 
@@ -43,7 +39,7 @@ public class PostResponse {
         postResponse.teamMemberCount = post.getTeamMemberCount();
         postResponse.currentMemberCount = post.getApplications().size();
         postResponse.category = post.getCategory().getName();
-        postResponse.content = post.getContent();
+        postResponse.detail = post.getDetail();
         postResponse.status = post.getStatus();
         return postResponse;
     }
