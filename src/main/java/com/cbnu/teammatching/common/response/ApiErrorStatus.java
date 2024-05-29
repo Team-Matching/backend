@@ -12,7 +12,9 @@ public enum ApiErrorStatus {
     INVALID_ID_OR_PASSWORD("MEM_0002","아이디 또는 비밀번호 오류입니다"),
     MEMBER_NOT_FOUND("MEM_0003","회원을 찾을 수 없습니다"),
     INVALID_TOKEN_PREFIX("AUTH001","허용되지 않은 토큰입니다"),
-    CATEGORY_NOT_FOUND("CATEGORY001","카테고리를 찾을 수 없습니다");
+    CATEGORY_NOT_FOUND("CATEGORY001","카테고리를 찾을 수 없습니다"),
+    POST_NOT_FOUND("POST001","게시글을 찾을 수 없습니다"),
+    POST_DELETED("POST002","삭제된 게시글입니다");
 
 
     private final String CODE;

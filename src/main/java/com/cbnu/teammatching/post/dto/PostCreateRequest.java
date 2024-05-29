@@ -15,6 +15,8 @@ public class PostCreateRequest {
 
     private String category;
 
-    private String content;
+    private String detail;
+
+    private String summary;
 
 }

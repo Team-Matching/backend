@@ -11,6 +11,7 @@ public class CategoryNotFoundException extends ApiException {
     public CategoryNotFoundException() {
         this(ERROR_STATUS.getCODE(), ERROR_STATUS.getMESSAGE());
     }
+
     protected CategoryNotFoundException(String errorCode, String message) {
         super(errorCode, HttpStatus.NOT_FOUND, message);
     }

@@ -31,7 +31,9 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String content;
+    private String detail;
+
+    private String summary;
 
     private boolean isDeleted;
 
@@ -48,7 +50,8 @@ public class Post {
         post.title = request.getTitle();
         post.creationDate = LocalDateTime.now();
         post.teamMemberCount = request.getTeamMemberCount();
-        post.content = request.getContent();
+        post.detail = request.getDetail();
+        post.summary = request.getSummary();
         post.isDeleted = false;
         post.status = PostStatus.Recruiting;
         return post;

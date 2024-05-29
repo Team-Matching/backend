@@ -33,7 +33,7 @@ public class SecurityConfig{
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtUtil jwtUtil;
-  private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
