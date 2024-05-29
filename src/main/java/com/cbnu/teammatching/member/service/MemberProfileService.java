@@ -153,4 +153,10 @@ public class MemberProfileService {
     }
 
 
+    public MemberProfileDto getProfile(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        List<Interest> interests = memberInterestRepository.findInterestsByMemberId(member.getId());
+        List<Skill> skills = memberSkillRepository.findSkillsByMemberId(member.getId());
+        return MemberProfileDto.of(member, interests, skills);
+    }
 }

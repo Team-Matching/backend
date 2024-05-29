@@ -105,4 +105,10 @@ public class MemberProfileController {
         List<InterestRequest.InterestDto> interests = profileService.getInterest(token);
         return ApiResponse.success(RETRIEVAL_SUCCESS, interests);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<MemberProfileDto>> getProfile(@PathVariable Long id) {
+        MemberProfileDto profile = profileService.getProfile(id);
+        return ApiResponse.success(RETRIEVAL_SUCCESS, profile);
+    }
 }
