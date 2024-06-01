@@ -1,4 +1,4 @@
-package com.cbnu.teammatching.application.domain;
+package com.cbnu.teammatching.post.domain;
 
 public enum ApplicationStatus {
     Pending, Accepted, Rejected
