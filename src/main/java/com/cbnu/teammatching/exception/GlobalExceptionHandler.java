@@ -43,6 +43,11 @@ public class GlobalExceptionHandler {
         return ApiErrorResponse.fail("SQL", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ApiErrorResponse.fail("IllegalArgument", e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ApiErrorResponse> handleSignatureException() {
         return ApiErrorResponse.fail("JWT", "토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED);

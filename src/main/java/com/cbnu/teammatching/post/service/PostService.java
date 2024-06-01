@@ -1,6 +1,6 @@
 package com.cbnu.teammatching.post.service;
 
-import com.cbnu.teammatching.application.domain.ApplicationStatus;
+import com.cbnu.teammatching.post.domain.ApplicationStatus;
 import com.cbnu.teammatching.category.domain.Category;
 import com.cbnu.teammatching.category.repository.CategoryRepository;
 import com.cbnu.teammatching.exception.category.CategoryNotFoundException;
@@ -63,7 +63,10 @@ public class PostService {
         return PostResponse.of(post, teamMemberEmails);
     }
 
-    public List<PostSummaryDto> getPosts() {
+    public List<PostSummaryDto> getPosts(String categoryName) {
+        if (categoryName != null) {
+            return getPostsByCategory(categoryName);
+        }
         return postRepository.findAll().stream()
                 .filter(post -> !post.isDeleted())
                 .map(PostSummaryDto::of)

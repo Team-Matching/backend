@@ -37,7 +37,7 @@ public class PostResponse {
         postResponse.teamMemberEmails = emails;
         postResponse.creationDate = post.getCreationDate();
         postResponse.teamMemberCount = post.getTeamMemberCount();
-        postResponse.currentMemberCount = post.getApplications().size();
+        postResponse.currentMemberCount = emails.size();
         postResponse.category = post.getCategory().getName();
         postResponse.detail = post.getDetail();
         postResponse.status = post.getStatus();

@@ -1,6 +1,5 @@
 package com.cbnu.teammatching.post.domain;
 
-import com.cbnu.teammatching.application.domain.Application;
 import com.cbnu.teammatching.category.domain.Category;
 import com.cbnu.teammatching.member.domain.Member;
 import com.cbnu.teammatching.post.dto.PostCreateRequest;
