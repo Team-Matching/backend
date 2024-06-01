@@ -16,7 +16,7 @@ import java.util.List;
 import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 
 @RestController
-@RequestMapping("/api/member/profile")
+@RequestMapping("/api/members/profile")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('USER')")
 @Slf4j
@@ -24,7 +24,7 @@ public class MemberProfileController {
 
     private final MemberProfileService profileService;
 
-    @PostMapping("/career")
+    @PostMapping("/careers")
     public ResponseEntity<ApiResponse<CareerDto>> saveCareer(
             @RequestHeader(name = "Authorization") String accessToken,
             @RequestBody CareerDto careerDto) {
@@ -33,14 +33,14 @@ public class MemberProfileController {
         return ApiResponse.success(PROFILE_SAVE, careerResponse);
     }
 
-    @GetMapping("/career")
+    @GetMapping("/careers")
     public ResponseEntity<ApiResponse<List<CareerDto>>> getCareer(@RequestHeader(name = "Authorization") String accessToken) {
         String token = JwtUtil.extractJwtToken(accessToken);
         List<CareerDto> careers = profileService.getCareer(token);
         return ApiResponse.success(RETRIEVAL_SUCCESS, careers);
     }
 
-    @PostMapping("/certification")
+    @PostMapping("/certifications")
     public ResponseEntity<ApiResponse<CertificationDto>> saveCertification(
             @RequestHeader(name = "Authorization") String accessToken,
             @RequestBody CertificationDto certificationDto) {
@@ -49,14 +49,14 @@ public class MemberProfileController {
         return ApiResponse.success(PROFILE_SAVE, certificationResponse);
     }
 
-    @GetMapping("/certification")
+    @GetMapping("/certifications")
     public ResponseEntity<ApiResponse<List<CertificationDto>>> getCertification(@RequestHeader(name = "Authorization") String accessToken) {
         String token = JwtUtil.extractJwtToken(accessToken);
         List<CertificationDto> certifications = profileService.getCertification(token);
         return ApiResponse.success(RETRIEVAL_SUCCESS, certifications);
     }
 
-    @PostMapping("/education")
+    @PostMapping("/educations")
     public ResponseEntity<ApiResponse<EducationDto>> saveEducation(
             @RequestHeader(name = "Authorization") String accessToken,
             @RequestBody EducationDto educationDto) {
@@ -65,14 +65,14 @@ public class MemberProfileController {
         return ApiResponse.success(PROFILE_SAVE, educationResponse);
     }
 
-    @GetMapping("/education")
+    @GetMapping("/educations")
     public ResponseEntity<ApiResponse<List<EducationDto>>> getEducation(@RequestHeader(name = "Authorization") String accessToken) {
         String token = JwtUtil.extractJwtToken(accessToken);
         List<EducationDto> educations = profileService.getEducation(token);
         return ApiResponse.success(RETRIEVAL_SUCCESS, educations);
     }
 
-    @PostMapping("/skill")
+    @PostMapping("/skills")
     public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> saveSkill(
             @RequestHeader(name = "Authorization") String accessToken,
             @RequestBody SkillRequest skillRequest
@@ -82,14 +82,14 @@ public class MemberProfileController {
         return ApiResponse.success(PROFILE_SAVE, skills);
     }
 
-    @GetMapping("/skill")
+    @GetMapping("/skills")
     public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> getSkill(@RequestHeader(name = "Authorization") String accessToken) {
         String token = JwtUtil.extractJwtToken(accessToken);
         List<SkillRequest.SkillDto> skills = profileService.getSkill(token);
         return ApiResponse.success(RETRIEVAL_SUCCESS, skills);
     }
 
-    @PostMapping("/interest")
+    @PostMapping("/interests")
     public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> saveInterest(
             @RequestHeader(name = "Authorization") String accessToken,
             @RequestBody InterestRequest interestRequest
@@ -99,7 +99,7 @@ public class MemberProfileController {
         return ApiResponse.success(PROFILE_SAVE, interests);
     }
 
-    @GetMapping("/interest")
+    @GetMapping("/interests")
     public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> getInterest(@RequestHeader(name = "Authorization") String accessToken) {
         String token = JwtUtil.extractJwtToken(accessToken);
         List<InterestRequest.InterestDto> interests = profileService.getInterest(token);

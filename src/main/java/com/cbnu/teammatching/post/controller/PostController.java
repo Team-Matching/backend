@@ -1,11 +1,7 @@
 package com.cbnu.teammatching.post.controller;
 
 import com.cbnu.teammatching.common.response.ApiResponse;
-import com.cbnu.teammatching.common.response.ApiSuccessStatus;
-import com.cbnu.teammatching.post.dto.PostCreateRequest;
-import com.cbnu.teammatching.post.dto.PostCreateResponse;
-import com.cbnu.teammatching.post.dto.PostResponse;
-import com.cbnu.teammatching.post.dto.PostSummaryDto;
+import com.cbnu.teammatching.post.dto.*;
 import com.cbnu.teammatching.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +12,7 @@ import java.util.List;
 import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
 
@@ -35,14 +31,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PostSummaryDto>>> getPosts() {
-        List<PostSummaryDto> response = postService.getPosts();
-        return ApiResponse.success(RETRIEVAL_SUCCESS, response);
-    }
-
-    @GetMapping("/category/{categoryName}")
-    public ResponseEntity<ApiResponse<List<PostSummaryDto>>> getPostsByCategory(@PathVariable String categoryName) {
-        List<PostSummaryDto> response = postService.getPostsByCategory(categoryName);
+    public ResponseEntity<ApiResponse<List<PostSummaryDto>>> getPostsByCategory(@RequestParam(required = false) String categoryName) {
+        List<PostSummaryDto> response = postService.getPosts(categoryName);
         return ApiResponse.success(RETRIEVAL_SUCCESS, response);
     }
 }
