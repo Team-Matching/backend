@@ -4,6 +4,7 @@ import com.cbnu.teammatching.post.dto.PostApplyRequest;
 import com.cbnu.teammatching.post.dto.PostApplyResponse;
 import com.cbnu.teammatching.common.response.ApiResponse;
 import com.cbnu.teammatching.post.service.ApplicationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
+@Tag(name = "지원 API", description = "모집공고에 대한 지원 관련 API")
 public class ApplicationController {
 
     private final ApplicationService applicationService;

@@ -27,8 +27,8 @@ import java.util.Arrays;
 public class SecurityConfig{
 
     private static final String[] AUTH_WHITELIST = {
-            "/api/member/**", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
-            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/api/auth/**"
+            "/api/members/**", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
+            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/api/auth/**", "/swagger-ui/**"
     };
 
     private final CustomUserDetailsService customUserDetailsService;
