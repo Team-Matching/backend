@@ -169,4 +169,10 @@ public class MemberProfileService {
                     return MemberProfileDto.of(member, interests, skills);
                 }).collect(Collectors.toList());
     }
+
+    public MyProfileResponse getMyProfile() {
+        Member member = getMember();
+        return MyProfileResponse.of(member);
+
+    }
 }
