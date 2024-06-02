@@ -1,9 +1,9 @@
-package com.cbnu.teammatching.post.service;
+package com.cbnu.teammatching.application.service;
 
-import com.cbnu.teammatching.post.domain.Application;
-import com.cbnu.teammatching.post.dto.PostApplyRequest;
-import com.cbnu.teammatching.post.dto.PostApplyResponse;
-import com.cbnu.teammatching.post.repository.ApplicationRepository;
+import com.cbnu.teammatching.application.domain.Application;
+import com.cbnu.teammatching.application.dto.PostApplyRequest;
+import com.cbnu.teammatching.application.dto.PostApplyResponse;
+import com.cbnu.teammatching.application.repository.ApplicationRepository;
 import com.cbnu.teammatching.exception.member.MemberNotFoundException;
 import com.cbnu.teammatching.exception.post.PostNotFoundException;
 import com.cbnu.teammatching.member.auth.JwtUtil;
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ApplicationService {
+public class PostApplicationService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
@@ -41,7 +41,7 @@ public class ApplicationService {
             throw new IllegalArgumentException("이미 지원한 모집공고입니다.");
         }
 
-        Application application = Application.createApplication(member, post, postApplyRequest.getDescription());
+        Application application = Application.createApplication(member, post, postApplyRequest);
         applicationRepository.save(application);
         return PostApplyResponse.of(application);
     }

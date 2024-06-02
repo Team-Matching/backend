@@ -159,4 +159,14 @@ public class MemberProfileService {
         List<Skill> skills = memberSkillRepository.findSkillsByMemberId(member.getId());
         return MemberProfileDto.of(member, interests, skills);
     }
+
+    public List<MemberProfileDto> getProfiles() {
+        List<Member> members = memberRepository.findAll();
+        return members.stream()
+                .map(member -> {
+                    List<Interest> interests = memberInterestRepository.findInterestsByMemberId(member.getId());
+                    List<Skill> skills = memberSkillRepository.findSkillsByMemberId(member.getId());
+                    return MemberProfileDto.of(member, interests, skills);
+                }).collect(Collectors.toList());
+    }
 }

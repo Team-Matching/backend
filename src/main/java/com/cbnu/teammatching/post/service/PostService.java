@@ -1,6 +1,6 @@
 package com.cbnu.teammatching.post.service;
 
-import com.cbnu.teammatching.post.domain.ApplicationStatus;
+import com.cbnu.teammatching.application.domain.ApplicationStatus;
 import com.cbnu.teammatching.category.domain.Category;
 import com.cbnu.teammatching.category.repository.CategoryRepository;
 import com.cbnu.teammatching.exception.category.CategoryNotFoundException;

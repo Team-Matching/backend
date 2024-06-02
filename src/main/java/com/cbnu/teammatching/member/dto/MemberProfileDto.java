@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 @Getter
 public class MemberProfileDto {
 
+    private String memberEmail;
+
     private List<CareerDto> careers;
 
     private List<CertificationDto> certifications;
@@ -23,6 +25,7 @@ public class MemberProfileDto {
 
     public static MemberProfileDto of(Member member, List<Interest> interests, List<Skill> skills) {
         MemberProfileDto memberProfileDto = new MemberProfileDto();
+        memberProfileDto.memberEmail = member.getEmail();
         memberProfileDto.careers = member.getCareers().stream().map(CareerDto::of).collect(Collectors.toList());
         memberProfileDto.certifications = member.getCertifications().stream().map(CertificationDto::of).collect(Collectors.toList());
         memberProfileDto.educations = member.getEducations().stream().map(EducationDto::of).collect(Collectors.toList());

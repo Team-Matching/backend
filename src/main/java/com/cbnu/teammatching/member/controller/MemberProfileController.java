@@ -14,7 +14,7 @@ import java.util.List;
 import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 
 @RestController
-@RequestMapping("/api/members/profile")
+@RequestMapping("/api/members/profiles")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "프로필 API", description = "회원 프로필 관련 API")
@@ -83,8 +83,14 @@ public class MemberProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<MemberProfileDto>> getProfile(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<MemberProfileDto>> getProfileDetails(@PathVariable Long id) {
         MemberProfileDto profile = profileService.getProfile(id);
         return ApiResponse.success(RETRIEVAL_SUCCESS, profile);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<MemberProfileDto>>> getProfiles() {
+        List<MemberProfileDto> profiles = profileService.getProfiles();
+        return ApiResponse.success(RETRIEVAL_SUCCESS, profiles);
     }
 }

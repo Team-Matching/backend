@@ -1,4 +1,4 @@
-package com.cbnu.teammatching.post.dto;
+package com.cbnu.teammatching.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostApplyRequest {
+
     private String description;
+
+    private String title;
 }
