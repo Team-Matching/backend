@@ -93,4 +93,10 @@ public class MemberProfileController {
         List<MemberProfileDto> profiles = profileService.getProfiles();
         return ApiResponse.success(RETRIEVAL_SUCCESS, profiles);
     }
+
+    @GetMapping("/my-profile")
+    public ResponseEntity<ApiResponse<MyProfileResponse>> getMyProfile() {
+        MyProfileResponse myProfile = profileService.getMyProfile();
+        return ApiResponse.success(RETRIEVAL_SUCCESS, myProfile);
+    }
 }
