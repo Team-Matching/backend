@@ -31,15 +31,15 @@ public class MemberProfileService {
     private final MemberSkillRepository memberSkillRepository;
     private final MemberInterestRepository memberInterestRepository;
 
-    public List<CareerDto> getCareer(String token) {
-        Member member = getMember(token);
+    public List<CareerDto> getCareer() {
+        Member member = getMember();
         List<Career> careers = member.getCareers();
         return careers.stream()
                 .map(CareerDto::of).collect(Collectors.toList());
     }
 
-    public CareerDto saveCareer(String token, CareerDto careerDto) {
-        Member member = getMember(token);
+    public CareerDto saveCareer(CareerDto careerDto) {
+        Member member = getMember();
         if (careerDto.getCareerId() == null) {
             Career newCareer = Career.createCareer(member, careerDto);
             careerRepository.save(newCareer);
@@ -51,15 +51,15 @@ public class MemberProfileService {
         }
     }
 
-    public List<CertificationDto> getCertification(String token) {
-        Member member = getMember(token);
+    public List<CertificationDto> getCertification() {
+        Member member = getMember();
         List<Certification> certifications = member.getCertifications();
         return certifications.stream()
                 .map(CertificationDto::of).collect(Collectors.toList());
     }
 
-    public CertificationDto saveCertification(String token, CertificationDto certificationDto) {
-        Member member = getMember(token);
+    public CertificationDto saveCertification(CertificationDto certificationDto) {
+        Member member = getMember();
         if (certificationDto.getCertificationId() == null) {
             Certification newCertification = Certification.createCertification(member, certificationDto);
             certificationRepository.save(newCertification);
@@ -71,15 +71,15 @@ public class MemberProfileService {
         }
     }
 
-    public List<EducationDto> getEducation(String token) {
-        Member member = getMember(token);
+    public List<EducationDto> getEducation() {
+        Member member = getMember();
         List<Education> educations = member.getEducations();
         return educations.stream()
                 .map(EducationDto::of).collect(Collectors.toList());
     }
 
-    public EducationDto saveEducation(String token, EducationDto educationDto) {
-        Member member = getMember(token);
+    public EducationDto saveEducation(EducationDto educationDto) {
+        Member member = getMember();
         if (educationDto.getEducationId() == null) {
             Education newEducation = Education.createEducation(member, educationDto);
             educationRepository.save(newEducation);
@@ -91,14 +91,14 @@ public class MemberProfileService {
         }
     }
 
-    public List<SkillRequest.SkillDto> getSkill(String token) {
-        Member member = getMember(token);
+    public List<SkillRequest.SkillDto> getSkill() {
+        Member member = getMember();
         List<Skill> skills = memberSkillRepository.findSkillsByMemberId(member.getId());
         return skills.stream().map(SkillRequest::of).collect(Collectors.toList());
     }
 
-    public List<SkillRequest.SkillDto> saveSkills(String token, List<SkillRequest.SkillDto> skills) {
-        Member member = getMember(token);
+    public List<SkillRequest.SkillDto> saveSkills(List<SkillRequest.SkillDto> skills) {
+        Member member = getMember();
 
         for (SkillRequest.SkillDto skillDto : skills) {
             Optional<Skill> skill = skillRepository.findBySkill(skillDto.getSkill());
@@ -118,16 +118,16 @@ public class MemberProfileService {
         return skills;
     }
 
-    public List<InterestRequest.InterestDto> getInterest(String token) {
-        Member member = getMember(token);
+    public List<InterestRequest.InterestDto> getInterest() {
+        Member member = getMember();
         List<Interest> interests = memberInterestRepository.findInterestsByMemberId(member.getId());
         return interests.stream()
                 .map(InterestRequest::of)
                 .collect(Collectors.toList());
     }
 
-    public List<InterestRequest.InterestDto> saveInterests(String token, List<InterestRequest.InterestDto> interests) {
-        Member member = getMember(token);
+    public List<InterestRequest.InterestDto> saveInterests(List<InterestRequest.InterestDto> interests) {
+        Member member = getMember();
 
         for (InterestRequest.InterestDto interestDto : interests) {
             Optional<Interest> interest = interestRepository.findByInterest(interestDto.getInterest());
@@ -147,9 +147,9 @@ public class MemberProfileService {
         return interests;
     }
 
-    private Member getMember(String token) {
-        Long memberId = jwtUtil.getMemberId(token);
-        return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+    private Member getMember() {
+        return memberRepository.findById(JwtUtil.getMemberIdFromToken())
+                .orElseThrow(MemberNotFoundException::new);
     }
 
 

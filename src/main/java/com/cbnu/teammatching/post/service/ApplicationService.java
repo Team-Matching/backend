@@ -33,6 +33,10 @@ public class ApplicationService {
 
         Post post = getPostById(postId);
 
+        if(post.getMember().equals(member)){
+            throw new IllegalArgumentException("팀장은 자신의 모집공고에 지원할 수 없습니다.");
+        }
+
         if (applicationRepository.existsByApplicantIdAndPostId(member.getId(), post.getId())) {
             throw new IllegalArgumentException("이미 지원한 모집공고입니다.");
         }

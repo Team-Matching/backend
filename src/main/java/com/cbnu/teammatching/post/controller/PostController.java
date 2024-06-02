@@ -3,6 +3,7 @@ package com.cbnu.teammatching.post.controller;
 import com.cbnu.teammatching.common.response.ApiResponse;
 import com.cbnu.teammatching.post.dto.*;
 import com.cbnu.teammatching.post.service.PostService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
+@Tag(name = "게시글 API", description = "게시글 CRUD 관련 API")
 public class PostController {
 
     private final PostService postService;
