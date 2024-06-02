@@ -1,14 +1,12 @@
 package com.cbnu.teammatching.member.controller;
 
 import com.cbnu.teammatching.common.response.ApiResponse;
-import com.cbnu.teammatching.member.auth.JwtUtil;
 import com.cbnu.teammatching.member.dto.*;
 import com.cbnu.teammatching.member.service.MemberProfileService;
-import lombok.Getter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,91 +16,69 @@ import static com.cbnu.teammatching.common.response.ApiSuccessStatus.*;
 @RestController
 @RequestMapping("/api/members/profile")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('USER')")
 @Slf4j
+@Tag(name = "프로필 API", description = "회원 프로필 관련 API")
 public class MemberProfileController {
 
     private final MemberProfileService profileService;
 
     @PostMapping("/careers")
-    public ResponseEntity<ApiResponse<CareerDto>> saveCareer(
-            @RequestHeader(name = "Authorization") String accessToken,
-            @RequestBody CareerDto careerDto) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        CareerDto careerResponse = profileService.saveCareer(token, careerDto);
+    public ResponseEntity<ApiResponse<CareerDto>> saveCareer(@RequestBody CareerDto careerDto) {
+        CareerDto careerResponse = profileService.saveCareer(careerDto);
         return ApiResponse.success(PROFILE_SAVE, careerResponse);
     }
 
     @GetMapping("/careers")
-    public ResponseEntity<ApiResponse<List<CareerDto>>> getCareer(@RequestHeader(name = "Authorization") String accessToken) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<CareerDto> careers = profileService.getCareer(token);
+    public ResponseEntity<ApiResponse<List<CareerDto>>> getCareer() {
+        List<CareerDto> careers = profileService.getCareer();
         return ApiResponse.success(RETRIEVAL_SUCCESS, careers);
     }
 
     @PostMapping("/certifications")
-    public ResponseEntity<ApiResponse<CertificationDto>> saveCertification(
-            @RequestHeader(name = "Authorization") String accessToken,
-            @RequestBody CertificationDto certificationDto) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        CertificationDto certificationResponse = profileService.saveCertification(token, certificationDto);
+    public ResponseEntity<ApiResponse<CertificationDto>> saveCertification(@RequestBody CertificationDto certificationDto) {
+        CertificationDto certificationResponse = profileService.saveCertification(certificationDto);
         return ApiResponse.success(PROFILE_SAVE, certificationResponse);
     }
 
     @GetMapping("/certifications")
-    public ResponseEntity<ApiResponse<List<CertificationDto>>> getCertification(@RequestHeader(name = "Authorization") String accessToken) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<CertificationDto> certifications = profileService.getCertification(token);
+    public ResponseEntity<ApiResponse<List<CertificationDto>>> getCertification() {
+        List<CertificationDto> certifications = profileService.getCertification();
         return ApiResponse.success(RETRIEVAL_SUCCESS, certifications);
     }
 
     @PostMapping("/educations")
-    public ResponseEntity<ApiResponse<EducationDto>> saveEducation(
-            @RequestHeader(name = "Authorization") String accessToken,
-            @RequestBody EducationDto educationDto) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        EducationDto educationResponse = profileService.saveEducation(token, educationDto);
+    public ResponseEntity<ApiResponse<EducationDto>> saveEducation(@RequestBody EducationDto educationDto) {
+        EducationDto educationResponse = profileService.saveEducation(educationDto);
         return ApiResponse.success(PROFILE_SAVE, educationResponse);
     }
 
     @GetMapping("/educations")
-    public ResponseEntity<ApiResponse<List<EducationDto>>> getEducation(@RequestHeader(name = "Authorization") String accessToken) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<EducationDto> educations = profileService.getEducation(token);
+    public ResponseEntity<ApiResponse<List<EducationDto>>> getEducation() {
+        List<EducationDto> educations = profileService.getEducation();
         return ApiResponse.success(RETRIEVAL_SUCCESS, educations);
     }
 
     @PostMapping("/skills")
-    public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> saveSkill(
-            @RequestHeader(name = "Authorization") String accessToken,
-            @RequestBody SkillRequest skillRequest
-    ) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<SkillRequest.SkillDto> skills = profileService.saveSkills(token, skillRequest.getSkills());
+    public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> saveSkill(@RequestBody SkillRequest skillRequest) {
+        List<SkillRequest.SkillDto> skills = profileService.saveSkills(skillRequest.getSkills());
         return ApiResponse.success(PROFILE_SAVE, skills);
     }
 
     @GetMapping("/skills")
-    public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> getSkill(@RequestHeader(name = "Authorization") String accessToken) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<SkillRequest.SkillDto> skills = profileService.getSkill(token);
+    public ResponseEntity<ApiResponse<List<SkillRequest.SkillDto>>> getSkill() {
+        List<SkillRequest.SkillDto> skills = profileService.getSkill();
         return ApiResponse.success(RETRIEVAL_SUCCESS, skills);
     }
 
     @PostMapping("/interests")
-    public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> saveInterest(
-            @RequestHeader(name = "Authorization") String accessToken,
-            @RequestBody InterestRequest interestRequest
-    ) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<InterestRequest.InterestDto> interests = profileService.saveInterests(token, interestRequest.getInterests());
+    public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> saveInterest(@RequestBody InterestRequest interestRequest) {
+        List<InterestRequest.InterestDto> interests = profileService.saveInterests(interestRequest.getInterests());
         return ApiResponse.success(PROFILE_SAVE, interests);
     }
 
     @GetMapping("/interests")
-    public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> getInterest(@RequestHeader(name = "Authorization") String accessToken) {
-        String token = JwtUtil.extractJwtToken(accessToken);
-        List<InterestRequest.InterestDto> interests = profileService.getInterest(token);
+    public ResponseEntity<ApiResponse<List<InterestRequest.InterestDto>>> getInterest() {
+        List<InterestRequest.InterestDto> interests = profileService.getInterest();
         return ApiResponse.success(RETRIEVAL_SUCCESS, interests);
     }
 
