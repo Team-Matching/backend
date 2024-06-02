@@ -1,6 +1,8 @@
-package com.cbnu.teammatching.post.domain;
+package com.cbnu.teammatching.application.domain;
 
+import com.cbnu.teammatching.application.dto.PostApplyRequest;
 import com.cbnu.teammatching.member.domain.Member;
+import com.cbnu.teammatching.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -20,16 +22,19 @@ public class Application {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private String title;
+
     private String description;
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
-    public static Application createApplication(Member applicant, Post post, String description) {
+    public static Application createApplication(Member applicant, Post post, PostApplyRequest request) {
         Application application = new Application();
         application.applicant = applicant;
         application.post = post;
-        application.description = description;
+        application.description = request.getDescription();
+        application.title = request.getTitle();
         application.status = ApplicationStatus.Pending;
         applicant.getApplications().add(application);
         post.getApplications().add(application);
