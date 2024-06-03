@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostApplyResponse {
 
+    private Long applicantId;
+
     private String applicantEmail;
 
     private Long postId;
@@ -23,6 +25,7 @@ public class PostApplyResponse {
 
     public static PostApplyResponse of(Application application) {
         PostApplyResponse postApplyResponse = new PostApplyResponse();
+        postApplyResponse.applicantId = application.getId();
         postApplyResponse.applicantEmail = application.getApplicant().getEmail();
         postApplyResponse.postId = application.getPost().getId();
         postApplyResponse.description = application.getDescription();
