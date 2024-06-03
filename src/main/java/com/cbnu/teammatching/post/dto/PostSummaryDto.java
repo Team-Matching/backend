@@ -6,6 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class PostSummaryDto {
+
+    private Long postId;
+
     private String title;
 
     private String authorEmail;
@@ -22,6 +25,7 @@ public class PostSummaryDto {
 
     public static PostSummaryDto of(Post post) {
         PostSummaryDto postSummaryDto = new PostSummaryDto();
+        postSummaryDto.postId = post.getId();
         postSummaryDto.title = post.getTitle();
         postSummaryDto.authorEmail = post.getMember().getEmail();
         postSummaryDto.postStatus = post.getStatus();
