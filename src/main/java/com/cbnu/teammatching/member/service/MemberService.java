@@ -47,7 +47,7 @@ public class MemberService {
         CustomUserInfoDto info = modelMapper.map(member, CustomUserInfoDto.class);
 
         String accessToken = jwtUtil.createAccessToken(info);
-        return new MemberSignInResponse(member.getEmail(), accessToken);
+        return new MemberSignInResponse(member.getEmail(), member.getNickname(), accessToken);
     }
 
     public List<MemberInfoDto> getAllMemberInfo() {
