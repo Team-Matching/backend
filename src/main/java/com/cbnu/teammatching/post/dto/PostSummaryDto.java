@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.post.dto;
 
+import com.cbnu.teammatching.application.domain.ApplicationStatus;
 import com.cbnu.teammatching.post.domain.Post;
 import com.cbnu.teammatching.post.domain.PostStatus;
 import lombok.Getter;
@@ -30,7 +31,9 @@ public class PostSummaryDto {
         postSummaryDto.authorEmail = post.getMember().getEmail();
         postSummaryDto.postStatus = post.getStatus();
         postSummaryDto.teamMemberCount = post.getTeamMemberCount();
-        postSummaryDto.currentMemberCount = post.getApplications().size();
+        postSummaryDto.currentMemberCount = (int)post.getApplications().stream()
+                .filter(application -> application.getStatus()
+                        .equals(ApplicationStatus.Accepted)).count();
         postSummaryDto.summary = post.getSummary();
         postSummaryDto.category = post.getCategory().getName();
         return postSummaryDto;

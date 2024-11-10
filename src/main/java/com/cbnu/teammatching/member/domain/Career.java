@@ -17,14 +17,10 @@ public class Career {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
     private String company;
     private String role;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
     private String description;
 
     public static Career createCareer(Member member, CareerDto request) {
