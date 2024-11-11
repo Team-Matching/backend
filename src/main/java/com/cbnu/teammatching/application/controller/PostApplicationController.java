@@ -28,7 +28,7 @@ public class PostApplicationController {
         return ApiResponse.success(MEMBER_APPLY_SUCCESS, postApplicationService.apply(postId, postApplyRequest));
     }
 
-    @Operation(summary = "지원자 목록 조회", description = "모집공고에 지원한 회원 목록을 조회합니다.")
+    @Operation(summary = "지원자 목록 조회", description = "모집공고의 지원서를 조회합니다.")
     @GetMapping("/{postId}/applications")
     public ResponseEntity<ApiResponse<List<PostApplyResponse>>> getAppliedMembers(@PathVariable Long postId) {
         return ApiResponse.success(RETRIEVAL_SUCCESS, postApplicationService.getAppliedMembers(postId));

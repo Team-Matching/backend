@@ -67,8 +67,7 @@ public class PostService {
         if (categoryName != null) {
             return getPostsByCategory(categoryName);
         }
-        return postRepository.findAll().stream()
-                .filter(post -> !post.isDeleted())
+        return postRepository.findAllByOrderByCreationDateDesc().stream()
                 .map(PostSummaryDto::of)
                 .toList();
     }
@@ -77,8 +76,16 @@ public class PostService {
         Category category = categoryRepository.findByName(categoryName)
                 .orElseThrow(CategoryNotFoundException::new);
 
-        return postRepository.findByCategory(category).stream()
-                .filter(post -> !post.isDeleted())
+        return postRepository.findByCategoryOrderByCreationDateDesc(category).stream()
+                .map(PostSummaryDto::of)
+                .toList();
+    }
+
+    public List<PostSummaryDto> getPostsByMember() {
+        Member member = memberRepository.findById(JwtUtil.getMemberIdFromToken())
+                .orElseThrow(MemberNotFoundException::new);
+        List<Post> posts = postRepository.findByMemberId(member.getId());
+        return posts.stream()
                 .map(PostSummaryDto::of)
                 .toList();
     }
