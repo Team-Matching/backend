@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.member.domain;
 
+import com.cbnu.teammatching.common.validator.DateValidator;
 import com.cbnu.teammatching.member.dto.CareerDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Career {
 
     public static Career createCareer(Member member, CareerDto request) {
         Career career = new Career();
+        DateValidator.validateDates(request.getStartDate(), request.getEndDate());
         career.member = member;
         career.company = request.getCompany();
         career.role = request.getRole();
@@ -42,5 +44,4 @@ public class Career {
         this.endDate = update.getEndDate();
         this.description = update.getDescription();
     }
-
 }

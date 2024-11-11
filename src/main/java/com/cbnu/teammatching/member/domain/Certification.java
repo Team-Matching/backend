@@ -1,5 +1,6 @@
 package com.cbnu.teammatching.member.domain;
 
+import com.cbnu.teammatching.common.validator.DateValidator;
 import com.cbnu.teammatching.member.dto.CareerDto;
 import com.cbnu.teammatching.member.dto.CertificationDto;
 import jakarta.persistence.*;
@@ -26,6 +27,7 @@ public class Certification {
 
     public static Certification createCertification(Member member, CertificationDto dto) {
         Certification certification = new Certification();
+        DateValidator.validateDate(dto.getDateObtained());
         certification.member = member;
         certification.certificationName = dto.getCertificationName();
         certification.issuer = dto.getIssuer();
