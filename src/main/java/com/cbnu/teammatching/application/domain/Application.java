@@ -43,9 +43,9 @@ public class Application {
 
     public void processByStatus(String status) {
         switch (status) {
-            case "accept" -> this.status = ApplicationStatus.Accepted;
-            case "reject" -> this.status = ApplicationStatus.Rejected;
-            case "pending" -> this.status = ApplicationStatus.Pending;
+            case "Accepted" -> this.status = ApplicationStatus.Accepted;
+            case "Rejected" -> this.status = ApplicationStatus.Rejected;
+            case "Pending" -> this.status = ApplicationStatus.Pending;
             default -> throw new IllegalArgumentException("올바르지 않은 상태값입니다.");
         }
     }
