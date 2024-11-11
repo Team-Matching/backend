@@ -37,4 +37,10 @@ public class PostController {
         List<PostSummaryDto> response = postService.getPosts(categoryName);
         return ApiResponse.success(RETRIEVAL_SUCCESS, response);
     }
+
+    @GetMapping("/members")
+    public ResponseEntity<ApiResponse<List<PostSummaryDto>>> getPostsByMember() {
+        List<PostSummaryDto> response = postService.getPostsByMember();
+        return ApiResponse.success(RETRIEVAL_SUCCESS, response);
+    }
 }

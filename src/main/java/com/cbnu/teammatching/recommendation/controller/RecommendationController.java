@@ -11,6 +11,7 @@ import com.cbnu.teammatching.recommendation.dto.PostRecommendResponse;
 import com.cbnu.teammatching.recommendation.service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,9 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-
     @PostMapping("/recommend-post")
     @Operation(summary = "팀 추천", description = "회원에게 팀을 추천합니다.")
-    public ResponseEntity<ApiResponse<PostRecommendResponse>> recommendPost() {
+    public ResponseEntity<ApiResponse<List<PostRecommendResponse>>> recommendPost() {
         return ApiResponse.success(ApiSuccessStatus.RETRIEVAL_SUCCESS,recommendationService.getRecommendations());
     }
 }

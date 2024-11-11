@@ -13,7 +13,10 @@ import com.cbnu.teammatching.post.domain.Post;
 import com.cbnu.teammatching.post.repository.PostRepository;
 import com.cbnu.teammatching.recommendation.dto.MemberDto;
 import com.cbnu.teammatching.recommendation.dto.PostRecommendResponse;
+import com.cbnu.teammatching.recommendation.dto.PostSimilarity;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -35,44 +38,57 @@ public class RecommendationService {
     private final MemberInterestRepository memberInterestRepository;
     private final MemberRepository memberRepository;
 
-    public PostRecommendResponse getRecommendations() {
+    public List<PostRecommendResponse> getRecommendations() {
         String url = "http://localhost:8000/recommend-post";
-        Member member = memberRepository.findById(JwtUtil.getMemberIdFromToken())
+        Long currentMemberId = JwtUtil.getMemberIdFromToken();
+        Member member = memberRepository.findById(currentMemberId)
                 .orElseThrow(MemberNotFoundException::new);
-        List<Skill> skillsByMemberId = memberSkillRepository.findSkillsByMemberId(JwtUtil.getMemberIdFromToken());
-        List<Interest> interestsByMemberId = memberInterestRepository.findInterestsByMemberId(JwtUtil.getMemberIdFromToken());
+        List<Skill> skillsByMemberId = memberSkillRepository.findSkillsByMemberId(currentMemberId);
+        List<Interest> interestsByMemberId = memberInterestRepository.findInterestsByMemberId(currentMemberId);
         MemberDto memberDto = MemberDto.of(member, skillsByMemberId, interestsByMemberId);
-        // JSON 요청 본문 생성
+
         String jsonRequest = "{\"user_profile\":\"" + memberDto.toString() + "\"}";
-        // HTTP 헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         System.out.println(jsonRequest);
 
-        // HTTP 엔티티 생성
         HttpEntity<String> entity = new HttpEntity<>(jsonRequest, headers);
-
-        // FastAPI 호출
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-        // 유사도 결과 처리
         JSONObject jsonResponse = new JSONObject(response.getBody());
         JSONArray similarityArray = jsonResponse.getJSONArray("similarity").getJSONArray(0);
 
-        // 가장 유사도가 높은 포스트 찾기
-        double maxSimilarity = -1;
-        long bestPostIndex = -1L;
-        for (int i = 1; i < similarityArray.length(); i++) {
-            double similarity = similarityArray.getDouble(i-1);
-            if (similarity > maxSimilarity) {
-                maxSimilarity = similarity;
-                bestPostIndex = i;
+        List<PostSimilarity> postSimilarities = new ArrayList<>();
+
+        // 유사도가 0보다 큰 경우만 리스트에 추가
+        for (int i = 0; i < similarityArray.length(); i++) {
+            double similarity = similarityArray.getDouble(i);
+            if (similarity > 0) {  // 유사도가 0보다 큰 경우만 추가
+                long postId = i + 1L;
+                // 해당 게시글이 존재하는지 먼저 확인
+                Optional<Post> postOptional = postRepository.findById(postId);
+                if (postOptional.isPresent()) {
+                    Post post = postOptional.get();
+                    // 자신이 작성한 게시글이 아닌 경우만 추가
+                    if (!post.getMember().getId().equals(currentMemberId)) {
+                        postSimilarities.add(new PostSimilarity(postId, similarity));
+                    }
+                }
             }
         }
 
-        Post post = postRepository.findById(bestPostIndex)
-                .orElseThrow(PostNotFoundException::new);
+        // 유사도 기준 내림차순 정렬
+        postSimilarities.sort((a, b) -> Double.compare(b.similarity(), a.similarity()));
 
-        return PostRecommendResponse.of(post,maxSimilarity);
+        // 상위 3개 추천 결과 생성
+        List<PostRecommendResponse> recommendations = new ArrayList<>();
+        for (int i = 0; i < Math.min(3, postSimilarities.size()); i++) {
+            PostSimilarity ps = postSimilarities.get(i);
+            Post post = postRepository.findById(ps.postId())
+                    .orElseThrow(PostNotFoundException::new);
+            recommendations.add(PostRecommendResponse.of(post, ps.similarity()));
+        }
+
+        return recommendations;
     }
 }

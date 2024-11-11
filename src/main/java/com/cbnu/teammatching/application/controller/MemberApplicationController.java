@@ -23,6 +23,7 @@ public class MemberApplicationController {
     private final MemberApplicationService memberApplicationService;
 
     @GetMapping("/applications")
+    @Tag(name = "회원 지원서 조회 API", description = "자신의 지원서 목록을 조회")
     public ResponseEntity<ApiResponse<List<MemberApplicationResponse>>> getApplications() {
         return ApiResponse.success(RETRIEVAL_SUCCESS,memberApplicationService.getApplications());
     }
