@@ -39,7 +39,7 @@ public class RecommendationService {
     private final MemberRepository memberRepository;
 
     public List<PostRecommendResponse> getRecommendations() {
-        String url = "http://localhost:8000/recommend-post";
+        String url = "https://prime-sloth-properly.ngrok-free.app/recommend-post";
         Long currentMemberId = JwtUtil.getMemberIdFromToken();
         Member member = memberRepository.findById(currentMemberId)
                 .orElseThrow(MemberNotFoundException::new);
