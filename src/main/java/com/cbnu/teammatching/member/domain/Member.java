@@ -6,14 +6,17 @@ import com.cbnu.teammatching.message.domain.Message;
 import com.cbnu.teammatching.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -21,7 +24,7 @@ public class Member {
 
     @NotNull
     @Column(unique = true)
-    private String username;
+    private String email;
 
     @NotNull
     private String name;
@@ -33,24 +36,18 @@ public class Member {
     private String nickname;
 
     @NotNull
-    @Column(unique = true)
-    private String email;
-
-    @NotNull
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @NotNull
     @Column(unique = true)
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE", nullable = false)
+    private RoleType role;
+
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Interest> interests = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Skill> skills = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Career> careers = new ArrayList<>();
@@ -70,21 +67,16 @@ public class Member {
     @OneToMany(mappedBy = "applicant")
     private List<Application> applications = new ArrayList<>();
 
-    protected Member() {
-    }
-
     public static Member createMember(MemberSignUpRequest registrationDto) {
         Member member = new Member();
-        member.username = registrationDto.getUsername();
         member.password = registrationDto.getPassword();
         member.nickname = registrationDto.getNickname();
         member.name = registrationDto.getName();
         member.email = registrationDto.getEmail();
         member.birthdate = registrationDto.getBirthdate();
         member.phoneNumber = registrationDto.getPhoneNumber();
+        member.role = RoleType.USER;
         return member;
     }
-
-
 
 }
